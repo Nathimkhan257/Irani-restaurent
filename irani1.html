@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Irani Restaurant & Events - Serving Happiness Since 1999</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'irani-dark-blue': '#050A30',
+            'irani-navy-blue': '#000C66',
+            'irani-blue': '#0000FF',
+            'irani-baby-blue': '#7EC8E3',
+            'irani-off-white': '#F4F5F4'
+          },
+          fontFamily: {
+            'sans': ['Montserrat', 'sans-serif'],
+            'serif': ['Playfair Display', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+    
+    /* General Styles */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #050A30;
+      color: #F4F5F4;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Hide/Show Pages */
+    .page {
+        display: none;
+    }
+    .page.active {
+        display: block;
+    }
+
+    /* Home Page Specific Styles */
+    .nav-item {
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    .nav-item::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #0000FF;
+        transition: width 0.3s ease;
+    }
+    .nav-item:hover::after {
+        width: 100%;
+    }
+    
+    /* Menu Page Specific Styles */
+    .menu-page-body {
+      background: linear-gradient(135deg, #050A30 0%, #000C66 100%);
+      color: #F4F5F4;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .menu-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+    .menu-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .menu-header h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #7EC8E3 0%, #0000FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 4px 20px rgba(126, 200, 227, 0.2);
+    }
+    .menu-subtitle {
+      font-size: 1.1rem;
+      color: #7EC8E3;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .back-link {
+        color: #7EC8E3;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s;
+        cursor: pointer;
+    }
+    .back-link:hover {
+        color: #0000FF;
+    }
+    .search-container { max-width: 400px; margin: 0 auto 2rem; position: relative; }
+    .search-input { width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border: 2px solid #475569; border-radius: 50px; background: #000C66; color: #F4F5F4; font-size: 1rem; transition: all 0.3s ease; }
+    .search-input:focus { outline: none; border-color: #0000FF; box-shadow: 0 0 0 3px rgba(0, 0, 255, 0.2); }
+    .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.1rem; }
+    .categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; padding: 0 1rem; }
+    .category-btn { padding: 0.75rem 1.5rem; border-radius: 50px; background: #000C66; color: #7EC8E3; border: 2px solid transparent; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 500; font-size: 0.95rem; }
+    .category-btn:hover { background: #050A30; color: #F4F5F4; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    .category-btn.active { background: linear-gradient(135deg, #0000FF 0%, #000C66 100%); color: white; border-color: #0000FF; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 255, 0.3); }
+    .menu-section { max-width: 800px; margin: 0 auto; }
+    .category-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; color: #0000FF; position: relative; }
+    .category-title::after { content: ''; position: absolute; bottom: -0.5rem; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: linear-gradient(90deg, #0000FF, #7EC8E3); border-radius: 2px; }
+    .menu-card { background: #000C66; border-radius: 20px; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #475569; }
+    .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0.5rem; border-bottom: 1px solid #475569; transition: all 0.3s ease; }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover { background: rgba(0, 0, 255, 0.1); transform: translateX(5px); }
+    .menu-item-name { font-weight: 500; font-size: 1rem; color: #F4F5F4; flex: 1; }
+    .price { color: #7EC8E3; font-weight: 600; font-size: 1.1rem; padding: 0.25rem 0.75rem; background: rgba(0, 0, 255, 0.15); border-radius: 20px; border: 1px solid rgba(0, 0, 255, 0.2); }
+    .loading { text-align: center; padding: 2rem; color: #7EC8E3; }
+    .spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid #475569; border-radius: 50%; border-top-color: #0000FF; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .no-results { text-align: center; padding: 3rem; color: #94a3b8; }
+    @media (max-width: 768px) {
+      .menu-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .price { align-self: flex-end; }
+    }
+  </style>
+</head>
+<body class="bg-irani-dark-blue text-irani-off-white">
+
+  <!-- Main Home Page Content -->
+  <main id="home-page" class="page active">
+    <!-- Navigation -->
+<nav class="bg-irani-dark-blue bg-opacity-80 fixed w-full top-0 z-50 shadow-md">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <div class="w-12 h-12 bg-irani-off-white rounded-full flex items-center justify-center overflow-hidden">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlHigzu5iu_l1eUywwmWfmiUqX2JK9TzmgQQ&s" alt="Logo" class="w-full h-full object-cover" />
+      </div>
+      <div>
+        <h1 class="text-2xl text-irani-blue font-bold font-serif">Irani</h1>
+        <p class="text-xs text-blue-300">AUTHENTIC PERSIAN CUISINE</p>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="#home" class="nav-item hover:text-irani-blue">Home</a>
+      <a href="#about" class="nav-item hover:text-irani-blue">About</a>
+      <a href="#" onclick="showPage('menu-page')" class="nav-item hover:text-irani-blue">Menu</a>
+      <a href="#gallery" class="nav-item hover:text-irani-blue">Gallery</a>
+      <a href="#contact" class="nav-item hover:text-irani-blue">Contact</a>
+    </div>
+  </div>
+</nav>
+  
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: linear-gradient(to right, rgba(5, 10, 48, 0.8), rgba(0, 12, 102, 0.8)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1350&q=80');">
+  
+    <div class="text-center px-6">
+        <h1 class="text-5xl md:text-7xl font-bold mb-4 text-white font-serif">
+          <span class="text-irani-baby-blue">Savor the Soul of Persia</span>
+        </h1>
+        <p class="text-xl text-irani-off-white mb-8">A culinary journey where every dish tells a story.</p>
+        <div class="space-x-4">
+            <button onclick="showPage('menu-page')" class="bg-irani-blue hover:bg-irani-navy-blue px-8 py-3 rounded-full text-white font-bold text-lg transition-transform transform hover:scale-105">Explore Our Menu</button>
+        </div>
+      </div>
+    </section>
+  
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-irani-dark-blue">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="w-full h-96 rounded-2xl shadow-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80" alt="Persian Dish" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-8 -right-8 w-48 h-48 bg-irani-navy-blue rounded-full flex items-center justify-center text-white text-center p-4 shadow-lg">
+                        <p class="text-lg font-semibold">Serving Happiness Since 1999</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-irani-baby-blue mb-6 font-serif">Our Culinary Journey</h2>
+                    <p class="text-blue-200 mb-4 text-lg">For over two decades, Irani Restaurant has been a sanctuary for authentic Persian cuisine. Our story began with a simple mission: to share the joy of our rich culinary heritage. We believe in the power of food to bring people together, and our restaurant is a testament to that belief.</p>
+                    <p class="text-blue-200 mb-8 text-lg">Every dish is a testament to our commitment to tradition, crafted from time-honored recipes and the freshest local ingredients. We invite you to experience the true spirit of Persian hospitality, where every meal is a celebration.</p>
+                    <div class="flex space-x-12">
+                        <div class="text-center">
+                            <div class="text-4xl text-irani-blue font-bold">25+</div>
+                            <p class="text-blue-300">Years of Excellence</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl text-irani-blue font-bold">10k+</div>
+                            <p class="text-blue-300">Happy Customers</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl text-irani-blue font-bold">50+</div>
+                            <p class="text-blue-300">Authentic Dishes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 bg-irani-navy-blue">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-irani-off-white mb-12 font-serif">A Glimpse of Our Cuisine</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=700&q=80" alt="Delicious Pizza" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=700&q=80" alt="Fresh Salad" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=700&q=80" alt="Sweet Pancakes" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1484723050470-6b6e414ee365?auto=format&fit=crop&w=700&q=80" alt="Healthy Breakfast" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=700&q=80" alt="Grilled Salmon" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+                <div class="h-64 rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=700&q=80" alt="Avocado Toast" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+    <!-- Menu Teaser Section -->
+    <section class="py-32 bg-irani-dark-blue text-center">
+      <div class="container mx-auto px-6">
+        <h2 class="text-5xl font-bold mb-6 text-irani-off-white font-serif">Discover Our Menu</h2>
+        <p class="text-xl text-irani-baby-blue mb-12 max-w-2xl mx-auto">From succulent kebabs to fragrant rice dishes, our menu is a celebration of Persian flavors. Explore our offerings and find your new favorite.</p>
+        <button onclick="showPage('menu-page')" class="bg-irani-off-white hover:bg-gray-200 text-irani-dark-blue px-10 py-4 rounded-full text-xl font-bold transition-transform transform hover:scale-105 shadow-lg">
+          View Full Menu
+        </button>
+      </div>
+    </section>
+  
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-irani-navy-blue">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-irani-baby-blue mb-4 font-serif">Get In Touch</h2>
+          <p class="text-blue-200 text-lg">We'd love to hear from you. Visit us or send a message.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12 items-start">
+          <div class="space-y-8 bg-irani-dark-blue p-8 rounded-xl shadow-lg">
+            <div><h3 class="text-2xl text-irani-baby-blue font-bold mb-2 font-serif">Location</h3><p class="text-blue-200">123 Persian Street, Food District, Nagercoil, TN 629001</p></div>
+            <div><h3 class="text-2xl text-irani-baby-blue font-bold mb-2 font-serif">Reservations</h3><p class="text-blue-200">+91 94876 54321</p></div>
+            <div><h3 class="text-2xl text-irani-baby-blue font-bold mb-2 font-serif">Opening Hours</h3><p class="text-blue-200">Monday - Sunday: 11:00 AM - 11:00 PM</p></div>
+          </div>
+          <div>
+            <form class="bg-irani-dark-blue p-8 rounded-xl shadow-lg">
+              <h3 class="text-2xl text-irani-baby-blue font-bold mb-6 font-serif">Send Us a Message</h3>
+              <input type="text" placeholder="Your Name" class="w-full mb-4 px-4 py-3 rounded bg-irani-navy-blue text-white focus:outline-none focus:ring-2 focus:ring-irani-blue">
+              <input type="email" placeholder="Your Email" class="w-full mb-4 px-4 py-3 rounded bg-irani-navy-blue text-white focus:outline-none focus:ring-2 focus:ring-irani-blue">
+              <textarea placeholder="Your Message" rows="5" class="w-full mb-4 px-4 py-3 rounded bg-irani-navy-blue text-white focus:outline-none focus:ring-2 focus:ring-irani-blue"></textarea>
+              <button type="submit" class="bg-irani-blue hover:bg-opacity-80 w-full py-3 rounded-lg text-white font-bold text-lg transition-colors">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Footer -->
+    <footer class="bg-irani-dark-blue text-blue-300 py-6">
+      <div class="container mx-auto px-6 text-center"><p>© 2025 Irani Restaurant & Events. All Rights Reserved.</p></div>
+    </footer>
+  </main>
+
+  <!-- Menu Page Content -->
+  <main id="menu-page" class="page">
+    <div class="menu-page-body">
+        <div class="menu-container">
+            <div class="menu-header">
+                <a onclick="showPage('home-page')" class="back-link absolute top-2 left-2 md:top-4 md:left-4">? Back to Home</a>
+                <h1>Our Menu</h1>
+                <p class="menu-subtitle">A journey through authentic Persian flavors</p>
+                <div class="search-container">
+                    <span class="search-icon">??</span>
+                    <input type="text" class="search-input" placeholder="Search menu items..." id="searchInput"/>
+                </div>
+            </div>
+            <div class="categories" id="categoryButtons"></div>
+            <div class="menu-section">
+                <h2 class="category-title font-serif" id="categoryTitle">Soups</h2>
+                <div class="menu-card" id="menuItems">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </main>
+  
+  <script>
+    // --- Page Switching Logic ---
+    function showPage(pageId) {
+        // Hide all page containers
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        // Show the requested page container
+        const newPage = document.getElementById(pageId);
+        if (newPage) {
+            newPage.classList.add('active');
+        }
+        // Scroll to the top of the window
+        window.scrollTo(0, 0);
+    }
+    
+    // --- Menu Page Logic (runs once on load) ---
+    const categories = {
+        Soups: [{name:"Sweet Corn Veg Soup",price:100},{name:"Veg Clear Soup",price:100},{name:"Cream Of Tomato",price:100},{name:"Cream Of Veg",price:100},{name:"Hot & Sour Veg",price:100},{name:"Hot & Sour Mushroom",price:110},{name:"Mushroom Clear Soup",price:110},{name:"Nadan Mutton Soup",price:120},{name:"Mutton Clear Soup",price:150},{name:"Sweet Corn Mutton",price:150},{name:"Cream Of Mutton Soup",price:150},{name:"Hot & Sour Mutton Soup",price:150},{name:"Chicken Clear Soup",price:110},{name:"Sweet Corn Chicken Soup",price:110},{name:"Cream Of Chicken Soup",price:120},{name:"Hot & Sour Chicken Soup",price:120},{name:"Chicken Chinese Soup",price:120},{name:"Chicken Honkong Soup",price:150},{name:"Chicken Manchow Soup",price:150}],
+        Starters: [{name:"Chicken Lollipop",price:350},{name:"Chicken 65/Bl",price:260},{name:"Chicken 77",price:350},{name:"Dragon Chicken",price:350},{name:"Crispy Chicken",price:370},{name:"Honey Chicken",price:350},{name:"Chicken Satay",price:330},{name:"Prawns Fry",price:300},{name:"Dragon Prawns",price:350},{name:"Bdf",price:340},{name:"Beef Hunan",price:350},{name:"Beef Dragon",price:340},{name:"Gobi 65",price:220},{name:"Gobi Chilli Dry",price:200},{name:"Paneer 65",price:250},{name:"Dragon Paneer",price:280},{name:"Mushroom Chilli Dry",price:250}],
+        Breads: [{name:"Appam",price:12},{name:"Idiyappam",price:15},{name:"Porotta",price:15},{name:"Puttu",price:15},{name:"Nool Porotta",price:20},{name:"Chappathi",price:15},{name:"Wheat Porotta",price:25},{name:"Egg Appam",price:40},{name:"Ceylon Porotta",price:50},{name:"Egg Ceylon Porotta",price:60}],
+        Beef: [{name:"Nadan Beef Curry",price:220},{name:"Beef Fry",price:220},{name:"Beef Chilly",price:220},{name:"Beef Ularthiyathu",price:230},{name:"Beef Thengakothu",price:230},{name:"Beef Roast",price:230},{name:"Beef Pepper Fry",price:230},{name:"Beef Thoran",price:290},{name:"Bdf",price:300},{name:"Beef Hunan",price:350},{name:"Beef Dragon",price:340},{name:"Beef Kondattam",price:290}],
+        Biryani: [{name:"Chicken Biryani",price:200},{name:"Beef Biryani",price:200},{name:"Mutton Biryani",price:330},{name:"Fish Biryani",price:230},{name:"Prawns Biryani",price:350},{name:"Egg Biryani",price:160},{name:"Veg. Biryani",price:150},{name:"North Indian Biryani",price:230},{name:"Jellikkett Biryani",price:250},{name:"Chicken 65 Biryani",price:280},{name:"Fried Chicken Biryani",price:260},{name:"Chatti Biryani",price:290}],
+        Rice: [{name:"Plain Basmati",price:80},{name:"Ghee Rice",price:120},{name:"Curd Rice",price:100},{name:"Lemon Rice",price:110},{name:"Jeera Rice",price:130},{name:"Veg Pulav",price:150},{name:"Chicken Pulav",price:180},{name:"Egg Pulav",price:140},{name:"Mix Pulav",price:200},{name:"Shahi Pulav",price:220}]
+    };
+    const categoryButtons = document.getElementById("categoryButtons");
+    const menuItems = document.getElementById("menuItems");
+    const categoryTitle = document.getElementById("categoryTitle");
+    const searchInput = document.getElementById("searchInput");
+    let activeCategory = "Soups";
+    let searchTerm = "";
+    function renderButtons(){categoryButtons.innerHTML="";Object.keys(categories).forEach(cat=>{const btn=document.createElement("button");btn.textContent=cat;btn.className="category-btn";if(cat===activeCategory)btn.classList.add("active");btn.onclick=()=>{if(activeCategory===cat)return;activeCategory=cat;searchTerm="";searchInput.value="";renderButtons();renderMenu()};categoryButtons.appendChild(btn)})}
+    function filterItems(items,search){if(!search)return items;return items.filter(item=>item.name.toLowerCase().includes(search.toLowerCase()))}
+    function renderMenu(){categoryTitle.textContent=activeCategory;menuItems.innerHTML='<div class="loading"><div class="spinner"></div></div>';setTimeout(()=>{const items=categories[activeCategory];const filteredItems=filterItems(items,searchTerm);if(filteredItems.length===0){menuItems.innerHTML=`<div class="no-results"><p class="text-xl mb-2">No items found</p><p>Try a different search term or category.</p></div>`;return}const menuHTML=filteredItems.map(item=>`<div class="menu-item"><span class="menu-item-name">${item.name}</span><span class="price ${item.price===null?'unavailable':''}">${item.price!==null?`?${item.price}`:'Ask Server'}</span></div>`).join("");menuItems.innerHTML=menuHTML;menuItems.classList.add('fade-in');setTimeout(()=>menuItems.classList.remove('fade-in'),500)},150)}
+    let searchTimeout;searchInput.addEventListener('input',e=>{clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>{searchTerm=e.target.value;renderMenu()},300)});document.addEventListener('keydown',e=>{if(e.key==='/'){e.preventDefault();searchInput.focus()}});
+    
+    // Initialize Menu on first load
+    (function initMenu() {
+        renderButtons();
+        renderMenu();
+    })();
+  </script>
+
+</body>
+</html>
